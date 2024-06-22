@@ -10,17 +10,19 @@ const char *ssid = "Wokwi-GUEST";
 const char *password = "";
 
 // Instancias de los sensores
-DHTSensor dhtSensor(15);  // Asegúrate de que el pin es correcto
+DHTSensor dhtSensor(15); // Asegúrate de que el pin es correcto
 UltrasonicSensor ultrasonicSensor(5, 18);
 PulseSensor pulseSensor(35, 4);
 
 // Instancia del LCD
 LCDManager lcdManager(0x27, 16, 2);
 
-void setup() {
+void setup()
+{
   Serial.begin(9600);
   WiFi.begin(ssid, password);
-  while (WiFi.status() != WL_CONNECTED) {
+  while (WiFi.status() != WL_CONNECTED)
+  {
     delay(1000);
     Serial.print(".");
   }
@@ -29,7 +31,8 @@ void setup() {
   lcdManager.init(); // Iniciar el LCD
 }
 
-void loop() {
+void loop()
+{
   // Leer y mostrar los datos del sensor de pulso simulado
   float voltage = pulseSensor.readVoltage();
   pulseSensor.updateLed();
@@ -38,7 +41,8 @@ void loop() {
 
   // Leer y mostrar los datos del DHT22
   TempAndHumidity values = dhtSensor.readValues();
-  if (!isnan(values.temperature)) {
+  if (!isnan(values.temperature))
+  {
     Serial.print("Temperatura: ");
     Serial.print(values.temperature);
     Serial.print(" °C, Humedad: ");
@@ -52,7 +56,8 @@ void loop() {
   Serial.println(distance);
 
   // Envío de datos al servidor
-  if (WiFi.status() == WL_CONNECTED) {
+  if (WiFi.status() == WL_CONNECTED)
+  {
     HTTPClient http;
     http.begin("http://tu-servidor.com/api/data");
     http.addHeader("Content-Type", "application/json");
@@ -65,13 +70,13 @@ void loop() {
   }
 
   // Actualizar el LCD con los últimos datos
-  lcdManager.displayMessage("Temp: " + String(values.temperature, 2) + " C", 
+  lcdManager.displayMessage("Temp: " + String(values.temperature, 2) + " C",
                             "Hum: " + String(values.humidity, 1) + "%");
 
   delay(2000);
 
-  lcdManager.displayMessage("Pulse: " + String(voltage) + "V", 
+  lcdManager.displayMessage("Pulse: " + String(voltage) + "V",
                             "Dist: " + String(distance) + "cm");
 
-  delay(2000);  // Delay entre lecturas
+  delay(2000); // Delay entre lecturas
 }
