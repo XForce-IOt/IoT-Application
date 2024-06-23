@@ -1,0 +1,84 @@
+{
+  "version": 1,
+  "author": "PetHealth Team",
+  "editor": "wokwi",
+  "parts": [
+    { "type": "wokwi-esp32-devkit-v1", "id": "esp", "top": -89.12, "left": -148.8, "attrs": {} },
+    {
+      "type": "wokwi-led",
+      "id": "safe-led",
+      "top": -234,
+      "left": -111.4,
+      "attrs": { "color": "green" }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r1",
+      "top": -140.05,
+      "left": -38.4,
+      "rotate": 90,
+      "attrs": { "value": "330" }
+    },
+    {
+      "type": "wokwi-lcd1602",
+      "id": "display",
+      "top": 208,
+      "left": 168.8,
+      "attrs": { "pins": "i2c" }
+    },
+    {
+      "type": "wokwi-hc-sr04",
+      "id": "distance-sensor",
+      "top": -324.9,
+      "left": 24.7,
+      "attrs": { "distance": "198" }
+    },
+    { "type": "wokwi-potentiometer", "id": "pot1", "top": -193.3, "left": 182.2, "attrs": {} },
+    {
+      "type": "wokwi-led",
+      "id": "unsafe-led",
+      "top": -205.2,
+      "left": -149.8,
+      "attrs": { "color": "red" }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r2",
+      "top": -72.85,
+      "left": 105.6,
+      "attrs": { "value": "330" }
+    },
+    {
+      "type": "wokwi-dht22",
+      "id": "dht1",
+      "top": -105.3,
+      "left": 330.6,
+      "attrs": { "temperature": "44.2", "humidity": "77.5" }
+    }
+  ],
+  "connections": [
+    [ "esp:TX0", "$serialMonitor:RX", "", [] ],
+    [ "esp:RX0", "$serialMonitor:TX", "", [] ],
+    [ "display:VCC", "esp:3V3", "red", [] ],
+    [ "display:SCL", "esp:D22", "purple", [] ],
+    [ "display:SDA", "esp:D21", "orange", [] ],
+    [ "display:GND", "esp:GND.1", "black", [] ],
+    [ "safe-led:C", "esp:GND.1", "black", [] ],
+    [ "unsafe-led:C", "esp:GND.2", "black", [ "h-162.8", "v249.6" ] ],
+    [ "r1:1", "esp:D2", "green", [] ],
+    [ "r1:2", "safe-led:A", "green", [] ],
+    [ "r2:1", "esp:D4", "green", [] ],
+    [ "r2:2", "unsafe-led:A", "green", [] ],
+    [ "distance-sensor:GND", "esp:GND.2", "black", [ "h-318", "v288" ] ],
+    [ "distance-sensor:VCC", "esp:VIN", "red", [ "h-67.2", "v393.6" ] ],
+    [ "distance-sensor:TRIG", "esp:D5", "purple", [] ],
+    [ "distance-sensor:ECHO", "esp:D18", "orange", [ "h-106.4", "v220.8" ] ],
+    [ "dht1:VCC", "esp:3V3", "red", [ "v38.4", "h-393.1" ] ],
+    [ "dht1:GND", "esp:GND.1", "black", [ "v0" ] ],
+    [ "dht1:SDA", "esp:D23", "blue", [ "v0" ] ],
+    [ "pot1:VCC", "esp:3V3", "red", [ "v0" ] ],
+    [ "pot1:GND", "esp:GND.1", "black", [ "v0" ] ],
+    [ "pot1:SIG", "esp:VP", "green", [ "v67.2", "h-259.6" ] ]
+  ],
+  "dependencies": {}
+}
